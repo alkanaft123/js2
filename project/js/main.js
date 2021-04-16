@@ -14,20 +14,11 @@ const renderProduct = (title, price) => {
 };
 
 const renderProducts = (list = []) => {
-    const productList = list.map((item) => {
-        return renderProduct(item.title, item.price);
-    });
-    // let productList = [];
-
-    // for (let i = 0; i < list.length; i++) {
-    //     productList.push(renderProduct(list[i].title, list[i].price));
-    // }
-    // for (const item of list) {
-    //     productList.push(renderProduct(item.title, item.price));
-    // }
+    const productList = list.reduce((acc, item) => {
+        return acc + renderProduct(item.title, item.price);
+    },'');
 
     document.querySelector('.products').innerHTML = productList;
-    // console.log(productList);
 }
 
 renderProducts(products);
