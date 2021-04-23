@@ -42,31 +42,6 @@
 //     }
 //   }
 // }
-
-
-
-class Cart{
-  constructor(){
-    this.products = [];
-  }
-
-  addProduct(product){
-    this.products.push(product);
-  }
-
-  removeProduct(id){
-    this.products.forEach((el, index)=>{
-      if (el.id === id) {
-        this.products.splice(index, 1);
-      }
-    });
-  }
-
-  _render() {
-    document.querySelector('.btn-cart').textContent = `Корзина (${this.products.length})`;
-    }
-}
-
 class ProductList {
   constructor(container = '.products') {
     this.container = container;
@@ -75,6 +50,10 @@ class ProductList {
 
     this._fetchGoods();
     this._render();
+  }
+
+  sum() {
+    return this._goods.reduce((sum, { price }) => sum + price, 0);
   }
 
   _fetchGoods() {
@@ -90,25 +69,12 @@ class ProductList {
     const block = document.querySelector(this.container);
 
     for (const product of this._goods) {
+      // console.log(new ProductItem(product).render());
       const productObject = new ProductItem(product);
 
       this._allProducts.push(productObject);
       block.insertAdjacentHTML('beforeend', productObject.render());
     }
-    document.querySelectorAll('.buy-btn').forEach((el)=>{
-      el.addEventListener('click',(event)=>{
-        cart.addProduct(this._goods.find((item, index, array)=>{
-          if (item.id = event.target.parentNode.parentNode.dataset.id) {
-            return item;
-          }
-        }));
-        cart._render(); 
-      });  
-    });
-  }
-
-  getTotal(){
-    return this._goods.reduce((acc, item)=> acc+item.price, 0);
   }
 }
 
@@ -133,4 +99,26 @@ class ProductItem {
 }
 
 const catalog = new ProductList();
-const cart = new Cart();
+
+// const products = [
+//   {id: 1, title: 'Notebook', price: 20000},
+//   {id: 2, title: 'Mouse', price: 1500},
+//   {id: 3, title: 'Keyboard', price: 5000},
+//   {id: 4, title: 'Gamepad', price: 4500},
+// ];
+//
+// const renderProduct = (item, img='https://via.placeholder.com/200x150') => `<div class="product-item" data-id="${this.id}">
+//               <img src="${img}" alt="Some img">
+//               <div class="desc">
+//                   <h3>${item.title}</h3>
+//                   <p>${item.price} \u20bd</p>
+//                   <button class="buy-btn">Купить</button>
+//               </div>
+//           </div>`;
+//
+// const renderProducts = list => {
+// document.querySelector('.products').insertAdjacentHTML('beforeend', list.map(item => renderProduct(item)).join(''));
+// };
+//
+// renderProducts(products);
+
